@@ -1,17 +1,22 @@
 class Solution:
     def maxSlidingWindow(self, nums, k):
-        max_nums = []
+        head = 0
+        tail = 0
+        max_num_list = []
+        for i in range(len(nums)):
+            if head - tail > k - 1:
+                max_num_list.append(nums[head])
 
-        def pick_max_num(nums_list, w):  # w为窗口宽度，即临时数组的长度
-            max_num = nums_list[0]  # 窗口内的最大数默认为第一个
-            for j in range(w):
-                if nums_list[j] > max_num:
-                    max_num = nums_list[j]
-            return max_num
+            queue = nums[head:tail]
+            if nums[i] > nums[head] and i - head == k:
+                head = i
+            else:
+                tail = i
 
-        for i in range(len(nums) - k + 1):
-            max_nums.append(pick_max_num(nums[i:i + k], k))
-
-        return max_nums
+        return max_num_list
 
 
+if __name__ == "__main__":
+    cls = Solution()
+    cc = cls.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3)
+    print(cc)
